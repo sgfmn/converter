@@ -2,6 +2,8 @@ body,
 html {
     width: 100%;
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .main {
@@ -34,9 +36,9 @@ html {
     color: white;
 }
 
-.block-1 {}
+#block-1 {}
 
-.block-2 {}
+#block-2 {}
 
 .input {
     width: 259px;
@@ -46,7 +48,8 @@ html {
     margin-top: 19px;
 }
 
-section option {
+section,
+option {
     background-color: white;
     color: black;
 }
