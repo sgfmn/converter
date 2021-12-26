@@ -21,6 +21,7 @@ function init() {
 
 };
 
+
 class CurrencyInput {
     constructor(inputId, currencyList, defaultValue) {
         this.value = defaultValue;
