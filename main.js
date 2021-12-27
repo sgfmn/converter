@@ -54,7 +54,8 @@ class CurrencyInput {
 
 const API = {
     request(base, symbols, callback) {
-        fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
+        // fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
+        fetch(`https://api.exchangerate.host/latest?base=USD&symbols=RUB`)
             .then(res => res.json())
             .then(data => {
                 callback(data.rates)

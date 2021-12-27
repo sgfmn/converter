@@ -51,7 +51,7 @@ body {
 }
 
 .login {
-    background-color: #fff;
+    background-color: #FFF;
     border-radius: 4px;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
@@ -109,7 +109,7 @@ body {
 
 .btn.selected {
     background-color: #833AE0;
-    color: white;
+    color: #FFF;
 }
 
 #block-1,
@@ -161,7 +161,7 @@ body {
 }
 
 section option {
-    background-color: white;
+    background-color: #FFF;
     color: #000;
 }
 
@@ -190,6 +190,6 @@ section option {
     top: 50%;
     transform: translate(-50%, -50%);
     padding: 12px;
-    background-color: #fff;
+    background-color: #FFF;
     border-radius: 3px;
 }
