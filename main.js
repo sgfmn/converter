@@ -15,12 +15,10 @@ function init() {
     }
 
     ['RUB', 'USD'].forEach((currency, index) => {
-        const currencyInput = new CurrencyInput(`block-${index + 1}`, currencyArr, currency, callback);
+        const currencyInput = new CurrencyInput(`block-${index + 1}`, currencyArr, currency);
+        blocks.push(currencyInput);
     });
-    blocks.push(currencyInput);
-
 };
-
 
 class CurrencyInput {
     constructor(inputId, currencyList, defaultValue) {
@@ -28,26 +26,21 @@ class CurrencyInput {
 
         const block = document.querySelector(`#${inputId}`);
         const select = block.querySelector('select');
-
-        const btns = block.querySelector('.btn:not(select)');
+        const btns = block.querySelectorAll('.btn:not(select)');
         select.addEventListener('change', () => {
             this.value = select.value;
             callback();
         })
 
-
         btns.forEach(btn => {
             btn.addEventListener("click", () => {
                 block.querySelector(".selected").classList.remove("selected");
                 btn.classList.add('selected');
+                console.log(this);
                 this.value = btn.innerText;
                 callback();
             });
         });
-
-
-
-
 
         currencyList.forEach(currencyText => {
             const option = document.createElement('option');
