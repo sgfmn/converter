@@ -7,16 +7,22 @@ function init() {
 
     const blocks = [];
 
-    function request() {
-        API.request(blocks[0].value, blocks[1].value, response);
+    function request(id) {
+        API.request(blocks[0].value, blocks[1].value, response, id);
     }
 
-    function response(rates) {
-        console.log(rates);
+    function response(rates, id) {
+        console.log(id)
+        console.log(rates)
+        if (id === 1) {
+            blocks[1].inputFild.value = blocks[0].inputFild.value * rates[blocks[1].value];
+        } else if (id === 2) {
+            blocks[0].inputFild.value = blocks[1].inputFild.value / rates[blocks[1].value];
+        }
     }
 
     ['RUB', 'USD'].forEach((currency, index) => {
-        const currencyInput = new CurrencyInput(`block-${index + 1}`, currencyArr, currency, request);
+        const currencyInput = new CurrencyInput(index + 1, currencyArr, currency, request);
         blocks.push(currencyInput);
     });
 };
@@ -24,22 +30,35 @@ function init() {
 class CurrencyInput {
     constructor(inputId, currencyList, defaultValue, callback) {
         this.value = defaultValue;
+        this.inputFild = document.querySelector(`#input${inputId}`);
+        this.input = 0;
+        const block = document.querySelector(`#block-${inputId}`);
 
-        const block = document.querySelector(`#${inputId}`);
+        block.querySelector('input').addEventListener('change', (event) => {
+            this.input = event.target.value;
+            callback(inputId);
+        })
+
         const select = block.querySelector('select');
         const btns = block.querySelectorAll('.btn:not(select)');
         select.addEventListener('change', () => {
             this.value = select.value;
-            callback();
+            callback(inputId);
+        })
+
+        select.addEventListener('change', () => {
+            this.value = select.value;
+            block.querySelector('.selected').classList.remove("selected");
+            select.classList.add("selected");
+            callback(inputId);
         })
 
         btns.forEach(btn => {
             btn.addEventListener("click", () => {
                 block.querySelector(".selected").classList.remove("selected");
                 btn.classList.add('selected');
-                console.log(this);
                 this.value = btn.innerText;
-                callback();
+                callback(inputId);
             });
         });
 
@@ -53,12 +72,11 @@ class CurrencyInput {
 };
 
 const API = {
-    request(base, symbols, callback) {
-        // fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
-        fetch(`https://api.exchangerate.host/latest?base=USD&symbols=RUB`)
+    request(base, symbols, callback, id) {
+        fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
             .then(res => res.json())
             .then(data => {
-                callback(data.rates)
+                callback(data.rates, id)
             })
     }
 };
