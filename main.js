@@ -4,6 +4,7 @@ window.addEventListener('load', () => init());
 
 function init() {
     const currencyArr = currencyStr.split(', ');
+
     const blocks = [];
 
     function request() {
@@ -15,13 +16,13 @@ function init() {
     }
 
     ['RUB', 'USD'].forEach((currency, index) => {
-        const currencyInput = new CurrencyInput(`block-${index + 1}`, currencyArr, currency);
+        const currencyInput = new CurrencyInput(`block-${index + 1}`, currencyArr, currency, request);
         blocks.push(currencyInput);
     });
 };
 
 class CurrencyInput {
-    constructor(inputId, currencyList, defaultValue) {
+    constructor(inputId, currencyList, defaultValue, callback) {
         this.value = defaultValue;
 
         const block = document.querySelector(`#${inputId}`);
@@ -56,7 +57,7 @@ const API = {
         fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
             .then(res => res.json())
             .then(data => {
-                callback(data, rates)
+                callback(data.rates)
             })
     }
 };
