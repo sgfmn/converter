@@ -15,22 +15,34 @@ function init() {
         console.log(id)
         console.log(rates)
         if (id === 1) {
-            blocks[1].inputFild.value = blocks[0].inputFild.value * rates[blocks[1].value];
+            blocks[1].inputField.value = blocks[0].inputField.value * rates[blocks[1].value];
         } else if (id === 2) {
-            blocks[0].inputFild.value = blocks[1].inputFild.value / rates[blocks[1].value];
+            blocks[0].inputField.value = blocks[1].inputField.value / rates[blocks[1].value];
         }
+        document.querySelector('.calc1').innerText = `1 ${blocks[0].value} = ${rates[blocks[1].value]} ${blocks[1].value}`;
+        document.querySelector('.calc2').innerText = `1 ${blocks[1].value} = ${1 / rates[blocks[1].value]} ${blocks[0].value}`;
     }
 
     ['RUB', 'USD'].forEach((currency, index) => {
         const currencyInput = new CurrencyInput(index + 1, currencyArr, currency, serverRequest);
         blocks.push(currencyInput);
     });
+
+    serverRequest();
+
+    document.querySelector('.btn-convert').addEventListener('click', () => {
+        const bv0 = blocks[0].value;
+        const bv1 = blocks[1].value;
+        blocks[0].reverseBtn(bv1);
+        blocks[1].reverseBtn(bv0);
+        serverRequest(1);
+    });
 };
 
 class CurrencyInput {
     constructor(inputId, currencyList, defaultValue, callback) {
         this.value = defaultValue;
-        this.inputFild = document.querySelector(`#input${inputId}`);
+        this.inputField = document.querySelector(`#input${inputId}`);
         this.input = 0;
         const block = document.querySelector(`#block-${inputId}`);
 
@@ -68,18 +80,39 @@ class CurrencyInput {
             option.innerText = currencyText;
             select.append(option);
         });
-    }
+        this.container = block;
+        this.btns = btns;
+        this.select = select;
+    };
+    reverseBtn(value) {
+        this.container.querySelector('.selected').classList.remove('selected');
+        const btn = [...this.btns].find((btn) => btn.innerText === value);
+        if (btn) {
+            btn.classList.add('selected');
+        } else {
+            const options = this.container.querySelectorAll('option');
+            const option = [...options].find((option) => option.value === value);
+            option.selected = true;
+            this.select.classList.add('selected');
+        };
+        this.value = value;
+    };
 };
 
 const API = {
     request(base, symbols, responseCallback, id) {
+        const timer = setTimeout(() => {
+            document.querySelector('.loader').classList.add('active');
+        }, 500);
         fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
             .then(res => res.json())
             .then(data => {
+                clearTimeout(timer);
                 responseCallback(data.rates, id)
             })
             .catch(err => {
-
-            })
+                clearTimeout(timer);
+                document.querySelector('.error').classList.add('active');
+            });
     }
 };

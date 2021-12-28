@@ -2,6 +2,7 @@
 body {
     margin: 0px;
     padding: 0px;
+    font-family: 'Roboto', sans-serif;
 }
 
 .nav {
@@ -27,7 +28,6 @@ body {
 }
 
 .nav-item {
-    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -53,7 +53,6 @@ body {
 .login {
     background-color: #FFF;
     border-radius: 4px;
-    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 14px;
     line-height: 18px;
@@ -72,7 +71,6 @@ body {
 
 .main-title {
     min-width: 100%;
-    font-family: 'Roboto', sans-serif;
     font-weight: bold;
     font-size: 36px;
     line-height: 42px;
@@ -91,7 +89,6 @@ body {
 }
 
 .btn {
-    font-family: 'Roboto', sans-serif;
     line-height: 30px;
     width: 52px;
     height: 30px;
@@ -125,7 +122,6 @@ body {
 }
 
 .title {
-    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     line-height: 18px;
     color: #9F9F9F;
@@ -146,15 +142,14 @@ body {
     padding: 0px;
     border: none;
     width: 100%;
-    font-family: 'Roboto', sans-serif;
     font-weight: bold;
     font-size: 36px;
     line-height: 42px;
 }
 
-.calc {
+.calc1,
+.calc2 {
     padding-top: 20px;
-    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     line-height: 18px;
     color: #C6C6C6;
@@ -180,7 +175,6 @@ section option {
 }
 
 .loader .text {
-    font-family: 'Roboto', sans-serif;
     font-size: 24px;
     line-height: 28px;
     display: flex;
@@ -191,5 +185,39 @@ section option {
     transform: translate(-50%, -50%);
     padding: 12px;
     background-color: #FFF;
+    border-radius: 3px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.error {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: rgba(255, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+}
+
+.error.active {
+    display: block;
+}
+
+.error .text {
+    font-size: 35px;
+    line-height: 28px;
+    display: flex;
+    color: #000;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 12px;
+    background-color: yellow;
     border-radius: 3px;
 }
