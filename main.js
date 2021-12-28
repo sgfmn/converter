@@ -1,4 +1,4 @@
-const currencyStr = 'EUR, CHF, NOK, CAD, RUB, GBP, MXN, CNY, ISK, KRW, HKD, CZK, BGN, BRL, USD, IDR, SGD, PHP, RON, HUF, ILS, THB, SEK, NZD, AUD, DKK, HRK, PLN, TRY, INR, MYR, ZAR, JPY';
+const currencyStr = 'CHF, NOK, CAD, MXN, CNY, ISK, KRW, HKD, CZK, BGN, BRL, IDR, SGD, PHP, RON, HUF, ILS, THB, SEK, NZD, AUD, DKK, HRK, PLN, TRY, INR, MYR, ZAR, JPY';
 
 window.addEventListener('load', () => init());
 
@@ -7,7 +7,7 @@ function init() {
 
     const blocks = [];
 
-    function request(id) {
+    function serverRequest(id) {
         API.request(blocks[0].value, blocks[1].value, response, id);
     }
 
@@ -22,7 +22,7 @@ function init() {
     }
 
     ['RUB', 'USD'].forEach((currency, index) => {
-        const currencyInput = new CurrencyInput(index + 1, currencyArr, currency, request);
+        const currencyInput = new CurrencyInput(index + 1, currencyArr, currency, serverRequest);
         blocks.push(currencyInput);
     });
 };
@@ -72,11 +72,14 @@ class CurrencyInput {
 };
 
 const API = {
-    request(base, symbols, callback, id) {
+    request(base, symbols, responseCallback, id) {
         fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
             .then(res => res.json())
             .then(data => {
-                callback(data.rates, id)
+                responseCallback(data.rates, id)
+            })
+            .catch(err => {
+
             })
     }
 };
